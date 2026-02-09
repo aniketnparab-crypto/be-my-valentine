@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fff5f7;
+            overflow: hidden; /* Prevents scrollbars when button jumps */
+        }
+        #noButton {
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+
+    <div id="main-card" class="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full z-10">
+        
+        <div class="mb-6 h-48 flex items-center justify-center">
+            <img id="display-gif" 
+                 src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJleXpnd3JueXh6ZzR2bm9oZzR2bm9oZzR2bm9oZzR2bm9oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" 
+                 alt="Begging Puppy" 
+                 class="rounded-xl h-full object-contain">
+        </div>
+
+        <h1 id="question-text" class="text-3xl font-bold text-pink-600 mb-8">
+            Will you be my Valentine? 🥺
+        </h1>
+
+        <div class="flex flex-row justify-center gap-4 relative h-16">
+            <button id="yesButton" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-10 rounded-full text-xl shadow-lg transform transition active:scale-95">
+                Yes!
+            </button>
+            
+            <button id="noButton" 
+                    class="bg-red-500 text-white font-bold py-3 px-10 rounded-full text-xl shadow-lg">
+                No
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noButton');
+        const yesBtn = document.getElementById('yesButton');
+        const gif = document.getElementById('display-gif');
+        const text = document.getElementById('question-text');
+
+        // The "Impossible No" Logic
+        const moveButton = () => {
+            // Calculate random positions within the visible window
+            // Subtracting button dimensions to keep it on screen
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        };
+
+        // Move on hover (desktop)
+        noBtn.addEventListener('mouseenter', moveButton);
+        // Move on touch (mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // The Success Logic
+        yesBtn.addEventListener('click', () => {
+            // Change the GIF to celebration
+            gif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHRleXpnd3JueXh6ZzR2bm9oZzR2bm9oZzR2bm9oZzR2bm9oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26vUxArWImdQ3qfTO/giphy.gif";
+            
+            // Change the text
+            text.innerHTML = "Yay! See you on the 14th! ❤️";
+            text.classList.replace('text-pink-600', 'text-red-500');
+
+            // Hide the "No" button entirely
+            noBtn.style.display = 'none';
+            
+            // Optional: Confetti or extra flair
+            yesBtn.innerHTML = "I Knew It! 😘";
+            yesBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
